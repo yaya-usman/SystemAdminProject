@@ -28,8 +28,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./server
-          file: ./Dockerfile
+          context: .
+          file: ./server/Dockerfile
           push: true
           tags: uzorex/systemadminproject-server:latest
 
@@ -51,8 +51,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./client
-          file: ./Dockerfile
+          context: .
+          file: ./client/Dockerfile
           push: true
           tags: uzorex/systemadminproject-client:latest
 
@@ -75,7 +75,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./nginx
-          file: ./Dockerfile
+          context: .
+          file: ./nginx/Dockerfile
           push: true
           tags: uzorex/systemadminproject-nginx:latest
