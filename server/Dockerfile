@@ -2,10 +2,10 @@ FROM node:lts-alpine
 
 WORKDIR /usr/src/app
 
-COPY ./package*.json ./
+COPY server/package*.json ./
 
 RUN npm ci
 
-COPY . ./
+COPY server ./
 
 CMD ["npm", "run", "start"]
