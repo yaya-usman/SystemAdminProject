@@ -1,0 +1,51 @@
+version: "3"
+services:
+  client:
+    image: reactserver
+    build: ./client
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
+    volumes:
+      - /usr/src/app/node_modules
+      - ./client:/usr/src/app
+    stdin_open: true
+    networks:
+      - local_net
+
+  api:
+    image: nodeserver
+    build: ./server
+    env_file:
+      - ./server/.env
+    ports:
+      - 5000:5000
+    volumes:
+      - /usr/src/app/node_modules
+      - ./server:/usr/src/app
+    networks:
+      - local_net
+  
+  nginx:
+    image: nginx
+    restart: always
+    depends_on:
+      - client
+      - api
+    build: ./nginx
+    ports:
+      - "3050:80"
+    networks:
+      - local_net
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
+
+
+networks:
+  local_net:
+    driver: bridge
