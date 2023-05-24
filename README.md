@@ -1,4 +1,4 @@
 #### AD-SOYAD: USMAN ADAIZA YAYA
 #### NUMARA: B181200557
-#### DOMAIN ADRESI: 
+#### DOMAIN ADRESI: www.usman-yaya.me
 #### VIDEO LINKI: 
