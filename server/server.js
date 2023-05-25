@@ -4,7 +4,6 @@ const IP = require('./db/models/ipModel');
 const axios = require('axios');
 const cors = require('cors');
 const moment = require("moment");
-const IPP = require('ip');
 require('dotenv').config();
 
 
@@ -20,29 +19,24 @@ const sendAPIRequest = async (ipAddress) => {
     return apiResponse.data;
 }
 
-// app.get('/', async (req, res) => {
-//     const ipAddress = IPP.address();
-//     const ipAddressInformation = await axios.get(process.env.ABSTRACT_GEO_URL);
-//     console.log(ipAddressInformation)
-// })
 
+app.get('/', async (req, res) => {
+   const ipAddress = req.header('x-forwarded-for') || req.socket.remoteAddress;
 
-app.get('/ipRecords', async (req, res) => {
-    // const test = req.header('x-forwarded-for');
-
-    console.log(req.headers)
-    try {
-        const ipAddressInformation = await axios.get(process.env.ABSTRACT_GEO_URL);
-        const {ip_address, city, country, flag}= ipAddressInformation.data
+   try {
+        const ipAddressInformation = await sendAPIRequest(ipAddress);
+        const {ip_address, city, country, flag}= ipAddressInformation
+        // const ipAddressInformation = await axios.get(process.env.ABSTRACT_GEO_URL);
+        // const {ip_address, city, country, flag }= ipAddressInformation.data
 
         // add to the database
-        await IP.create({ipAddress: ip_address, city, country, flag: flag.png})
+        await IP.create({ipAddress: ip_address, city, country, flag: flag.png, timeCreated: moment().format()})
 
         // fetch from db and format it and return the result
         const result =  await IP.find({})
-
+        
         const formatedResult = result.map((obj) => {
-            return {...obj._doc, timeCreated: moment(obj._createdAt).add(3, 'hours').format("DD.MM.YYYY hh:mm:ss a")}
+            return {...obj._doc, timeCreated: moment(obj._doc.timeCreated).format("DD.MM.YYYY hh:mm A")}
         })
 
         res.status(200).send(formatedResult);

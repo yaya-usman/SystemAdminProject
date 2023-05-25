@@ -12,10 +12,10 @@ const ipSchema = mongoose.Schema({
     },
     flag: {
         type: String
+    },
+    timeCreated: {
+        type: String
     }
-},
-{
-    timestamps: true
 })
 
 const IP = mongoose.model('IP', ipSchema);
