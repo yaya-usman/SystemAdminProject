@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const IP = require('./db/models/ipModel');
 const axios = require('axios');
 const cors = require('cors');
-const moment = require("moment")
+const moment = require("moment");
+const IPP = require('ip');
 require('dotenv').config();
 
 
@@ -14,8 +15,22 @@ app.use(express.json());
 app.use(cors())
 
 
+const sendAPIRequest = async (ipAddress) => {
+    const apiResponse = await axios.get(process.env.ABSTRACT_GEO_URL + "&ip_address=" + ipAddress);
+    return apiResponse.data;
+}
 
-app.get('/ipRecords', async (_, res) => {
+// app.get('/', async (req, res) => {
+//     const ipAddress = IPP.address();
+//     const ipAddressInformation = await axios.get(process.env.ABSTRACT_GEO_URL);
+//     console.log(ipAddressInformation)
+// })
+
+
+app.get('/ipRecords', async (req, res) => {
+    // const test = req.header('x-forwarded-for');
+
+    console.log(req.headers)
     try {
         const ipAddressInformation = await axios.get(process.env.ABSTRACT_GEO_URL);
         const {ip_address, city, country, flag}= ipAddressInformation.data
