@@ -20,7 +20,7 @@ const sendAPIRequest = async (ipAddress) => {
 }
 
 
-app.get('/', async (req, res) => {
+app.get('/ipRecords', async (req, res) => {
    const ipAddress = req.header('x-forwarded-for') || req.socket.remoteAddress;
 
    try {
