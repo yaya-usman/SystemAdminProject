@@ -21,13 +21,13 @@ const sendAPIRequest = async (ipAddress) => {
 
 
 app.get('/ipRecords', async (req, res) => {
-   const ipAddress = req.header('x-forwarded-for') || req.socket.remoteAddress;
+//    const ipAddress = req.header('x-forwarded-for') || req.socket.remoteAddress;
 
    try {
-        const ipAddressInformation = await sendAPIRequest(ipAddress);
-        const {ip_address, city, country, flag}= ipAddressInformation
-        // const ipAddressInformation = await axios.get(process.env.ABSTRACT_GEO_URL);
-        // const {ip_address, city, country, flag }= ipAddressInformation.data
+        // const ipAddressInformation = await sendAPIRequest(ipAddress);
+        // const {ip_address, city, country, flag}= ipAddressInformation
+        const ipAddressInformation = await axios.get(process.env.ABSTRACT_GEO_URL);
+        const {ip_address, city, country, flag }= ipAddressInformation.data
 
         // add to the database
         await IP.create({ipAddress: ip_address, city, country, flag: flag?.png, timeCreated: moment().format()})
