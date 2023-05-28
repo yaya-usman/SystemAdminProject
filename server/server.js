@@ -30,7 +30,7 @@ app.get('/ipRecords', async (req, res) => {
         // const {ip_address, city, country, flag }= ipAddressInformation.data
 
         // add to the database
-        await IP.create({ipAddress: ip_address, city, country, flag: flag.png, timeCreated: moment().format()})
+        await IP.create({ipAddress: ip_address, city, country, flag: flag?.png, timeCreated: moment().format()})
 
         // fetch from db and format it and return the result
         const result =  await IP.find({})
